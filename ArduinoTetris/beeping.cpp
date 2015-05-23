@@ -1,7 +1,7 @@
 /*
     Arduino Tetris
-    Copyright (C) 2015  João André Esteves Vilaça 
-    
+    Copyright (C) 2015  João André Esteves Vilaça
+
     https://github.com/vilaca/Handheld-Color-Console
 
     This program is free software; you can redistribute it and/or modify
@@ -100,6 +100,11 @@ class Beeping
     {
       tone(SPEAKER, frq, d);
       delay( d);
+    }
+
+    static void mute()
+    {
+      noTone(SPEAKER);
     }
 
     static void turnOn()

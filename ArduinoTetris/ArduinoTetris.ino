@@ -1,8 +1,8 @@
 
 /*
     Arduino Tetris
-    Copyright (C) 2015  João André Esteves Vilaça 
-    
+    Copyright (C) 2015  João André Esteves Vilaça
+
     https://github.com/vilaca/Handheld-Color-Console
 
     This program is free software; you can redistribute it and/or modify
@@ -25,9 +25,19 @@
 
 #include "joystick.cpp"
 #include "beeping.cpp"
-#include "Tetris.cpp"
+#include "tetris.cpp"
+#include "sequencer.cpp"
 
 void setup() {
+
+  Sequencer::init();
+
+  // enable timer, use to play music sequencer async
+  TCCR1A = 0; // No options in control register A
+  TCCR1B = (1 << CS11); // Set prescaler to divide by 8
+  TIMSK1 = (1 << OCIE1A); // Call ISR when TCNT2 = OCRA2
+  OCR1A = 32; // Set frequency of generated wave
+  sei(); // Enable interrupts to generate waveform!}
 
   TFT_BL_ON;      // turn on the background light
 
@@ -42,13 +52,19 @@ void loop() {
 
   drawPreGameScreen();
 
+  delay(700);
+
+  Sequencer::start();
+
   // wait for click
   while (!Joystick::fire());
+
+  Sequencer::stop();
 
   // load game
   Tetris t;
   t.run();
-  
+
   // game ended
   gameOver();
 }
@@ -75,5 +91,10 @@ void gameOver()
   Beeping::beep(200, 600);
   delay(1500);
   Joystick::waitForClick();
+}
+
+ISR(TIMER1_COMPA_vect) {
+
+  Sequencer::play();
 }
 
