@@ -2,6 +2,7 @@
 
 Handheld color console based on Atmega328 with Arduino bootloader.
 
+![Prototype](http://vilaca.eu/handheld-arduino-color-console/arduino_color_tetris.png)
 
 ##Build instructions
 
