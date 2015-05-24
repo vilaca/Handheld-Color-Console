@@ -119,7 +119,7 @@ class Tetris
 	int lines, level;
 
 	
-	// current shape
+	// current shapes
 	
 	byte current;
 	
@@ -214,7 +214,7 @@ class Tetris
 			BOARD_TOP,
 			i,
 			BOARD_BOTTOM - 1,
-			GRAY3);
+			GRAY2);
 		}
 
 		for ( int i = BOARD_TOP + BLOCK_SIZE - 1; i < BOARD_BOTTOM; i += BLOCK_SIZE)
