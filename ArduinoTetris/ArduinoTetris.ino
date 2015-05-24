@@ -1,7 +1,7 @@
 
 /*
     Arduino Tetris
-    Copyright (C) 2015  Jo√£o Andr√© Esteves Vila√ßa
+    Copyright (C) 2015  Jo„o AndrÈ Esteves VilaÁa
 
     https://github.com/vilaca/Handheld-Color-Console
 
@@ -43,22 +43,28 @@ void setup() {
 
   Tft.init();  // init TFT library
 
+  // play turnon sound	
   Beeping::turnOn();
 
+  // initialize joystick
   Joystick::init();
 }
 
 void loop() {
 
+  // title screen
   drawPreGameScreen();
 
+  // wait a bit before playing sounds
   delay(700);
 
+  // start playing tetris theme
   Sequencer::start();
 
   // wait for click
   while (!Joystick::fire());
 
+  // stop playing tetris theme
   Sequencer::stop();
 
   // load game
@@ -95,6 +101,7 @@ void gameOver()
 
 ISR(TIMER1_COMPA_vect) {
 
+  // sequencer plays tetris theme
   Sequencer::play();
 }
 
