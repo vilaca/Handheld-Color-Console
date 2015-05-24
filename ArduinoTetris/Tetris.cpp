@@ -46,6 +46,7 @@
 #define PIT_COLOR CYAN
 #define BG_COLOR BLACK
 
+// used to clear the position from the screen
 typedef struct Backup {
   byte x, y, rot;
 };
@@ -59,6 +60,8 @@ typedef struct Backup {
 
 class Tetris
 {
+	// shapes definitions
+	
     byte l_shape[4][4][2] {
       {{0, 0}, {0, 1}, {0, 2}, {1, 2}},
       {{0, 1}, {1, 1}, {2, 0}, {2, 1}},
@@ -99,14 +102,25 @@ class Tetris
       {{0, 0}, {0, 1}, {0, 2}, {0, 3}}
     };
 
+	// All game shapes and their colors
+
     byte *all_shapes[7] = {l_shape[0][0], j_shape[0][0], o_shape[0][0], s_shape[0][0], z_shape[0][0], t_shape[0][0], i_shape[0][0]};
 
     unsigned int colors[7] = {ORANGE, BLUE, YELLOW, GREEN, RED, MAGENTA, CYAN};
 
+
     // how many rotated variations each shape has
+	
     byte shapes[7] = {4, 4, 1, 2, 2, 4, 2};
 
-    int lines, level;
+
+	// game progress
+    
+	int lines, level;
+
+	
+	// current and next shape
+	
     byte current, next;
 
     unsigned long lastInput, lastDrop;
@@ -149,15 +163,16 @@ class Tetris
       {
         if ( i < BOARD_BOTTOM)
         {
-          Tft.drawLine(0, i, BOARD_LEFT, i, 0x3f - i / c);
-          Tft.drawLine(BOARD_RIGHT, i, LCD_WIDTH, i, 0x3f - i / c);
+          Tft.fillRectangle(0, i, BOARD_LEFT, 2, 0x1f - i / c);
+          Tft.fillRectangle(BOARD_RIGHT, i, LCD_WIDTH, 2, 0x1f - i / c);
         }
         else
           Tft.drawLine(0, i, LCD_WIDTH, i, 0x3f - i / c);
       }
 
-      // draw board lft limit
-      Tft.drawLine (
+      // draw board left limit
+      
+	  Tft.drawLine (
         BOARD_LEFT - 1,
         BOARD_TOP,
         BOARD_LEFT - 1,
@@ -165,7 +180,8 @@ class Tetris
         PIT_COLOR);
 
       // draw board right limit
-      Tft.drawLine (
+      
+	  Tft.drawLine (
         BOARD_RIGHT,
         BOARD_TOP,
         BOARD_RIGHT,
@@ -173,6 +189,7 @@ class Tetris
         PIT_COLOR);
 
       // draw board bottom limit
+	  
       Tft.drawLine (
         BOARD_LEFT - 1,
         BOARD_BOTTOM,
@@ -186,7 +203,7 @@ class Tetris
           i,
           BOARD_TOP,
           i,
-          BOARD_BOTTOM,
+          BOARD_BOTTOM - 1,
           GRAY3);
       }
 
