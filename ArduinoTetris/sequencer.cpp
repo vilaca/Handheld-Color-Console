@@ -184,6 +184,7 @@ class Sequencer {
 
     static void stop() {
       songOn = false;
+      Beeping::mute();
     }
 
     static void play()

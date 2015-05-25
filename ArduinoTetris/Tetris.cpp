@@ -150,7 +150,7 @@ class Tetris
 	{
 		Tft.fillScreen(BG_COLOR);
 
-		// analog 2 isnt connected to anything... 
+		// analog 2 isnt connected to anything...
 		randomSeed(analogRead(2));
 
 		// clean board
@@ -528,24 +528,25 @@ class Tetris
 	}
 
 	// create a sequence of 7 random shapes
-		
+	
 	void randomizer()
 	{
 		// randomize 7 shapes
 		
 		for ( byte i = 0; i < 7; i ++)
 		{
-			boolean retry = false;
+			boolean retry;
 			byte shape;
 			do
 			{
-				shape = i;
+				shape = random(7);
 				
 				// check if already in sequence
 				
+				retry= false;
 				for ( int j = 0; j < i; j++)
 				{
-					if ( shape == next[j] ) 
+					if ( shape == next[j] )
 					{
 						retry = true;
 						break;
