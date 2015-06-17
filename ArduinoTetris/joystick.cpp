@@ -1,6 +1,6 @@
 /*
     Arduino Tetris
-    Copyright (C) 2015  João André Esteves Vilaça 
+    Copyright (C) 2015 João André Esteves Vilaça 
     
     https://github.com/vilaca/Handheld-Color-Console
 
@@ -24,12 +24,31 @@
 
 #include <Arduino.h>
 
-#define XPIN  0
-#define YPIN  1
-#define FIREPIN 2
+// analog pins
 
-#define CENTER  512
-#define TOLERANCE  200
+#define XPIN        0
+#define YPIN        1
+
+// digital pin
+
+#define FIREPIN     2
+
+// joystick center for both axis
+
+#define CENTER      512
+
+// sometimes joysticks don't center
+// exactly at the expected point
+// expect that and only act after some
+// tolerance threshold
+
+#define TOLERANCE   (CENTER/2)
+
+// after this point the user is pressing
+// the joystick quite hard, act accordingly
+// i.e. move pieces faster
+
+#define HARD        (CENTER/2-TOLERANCE/4)
 
 class Joystick
 {
@@ -82,9 +101,19 @@ class Joystick
     {
       int n = analogRead(pin);
 
+      if ( n < CENTER - TOLERANCE - HARD)
+      {
+        return -2;
+      }
+
       if ( n < CENTER - TOLERANCE )
       {
         return -1;
+      }
+
+      if ( n > CENTER + TOLERANCE + HARD)
+      {
+        return 2;
       }
 
       if ( n > CENTER + TOLERANCE )
