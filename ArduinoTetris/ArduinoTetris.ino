@@ -31,14 +31,6 @@ void setup() {
 
   Sequencer::init();
 
-  // enable timer, use to play music sequencer async
-  TCCR1A = 0; // No options in control register A
-  TCCR1B = (1 << CS11); // Set prescaler to divide by 8
-  TIMSK1 = (1 << OCIE1A); // Call ISR when TCNT2 = OCRA2
-  OCR1A = 0;// Set frequency of generated wave
-  sei(); // Enable interrupts to generate waveform!}
-
-
   TFT_BL_ON;      // turn on the background light
 
   Tft.init();  // init TFT library
@@ -105,5 +97,3 @@ ISR(TIMER1_COMPA_vect) {
   // sequencer plays tetris theme
   Sequencer::play();
 }
-
-

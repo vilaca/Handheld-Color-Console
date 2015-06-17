@@ -161,8 +161,6 @@ static const int song[] = {
   -1
 };
 
-
-
 static volatile unsigned long last;
 static volatile int c;
 static volatile int w;
@@ -173,6 +171,14 @@ class Sequencer {
   public:
 
     static void init() {
+      
+      // enable timer, used to play music sequencer async
+      TCCR1A = 0; // No options in control register A
+      TCCR1B = (1 << CS10); // Set prescaler to divide by 8
+      TIMSK1 = (1 << OCIE1A); // Call ISR when TCNT2 = OCRA2
+      OCR1A = 0;// Set frequency of generated wave
+      sei(); // Enable interrupts to generate waveform!
+
       last = c = w = 0;
       songOn = false;
     }
