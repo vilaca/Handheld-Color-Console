@@ -41,6 +41,13 @@ class Joystick
 {
   public:
 
+    // joystick position constants 
+    
+    static const int NEUTRAL = 0;
+    static const int SOFT = 1;
+    static const int HARD = 2;
+    static const int HARDER = 3;
+
     static void init ()
     {
       pinMode ( FIREPIN, INPUT_PULLUP );

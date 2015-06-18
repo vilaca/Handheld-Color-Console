@@ -148,8 +148,6 @@ class Tetris
 
   void run()
   {
-    Tft.fillScreen(BG_COLOR);
-
     // analog 2 MUST NOT be connected to anything...
     
     randomSeed(analogRead(2));
@@ -178,16 +176,12 @@ class Tetris
     // draw background
     
     int c = LCD_HEIGHT / 28;
-    for (int i = 0; i < LCD_HEIGHT; i += 2)
+    for (int i = LCD_HEIGHT - 1; i >= 0; i -= 2)
     {
-      if ( i < BOARD_BOTTOM)
-      {
-        Tft.fillRectangle(0, i, BOARD_LEFT, 2, 0x1f - i / c);
-        Tft.fillRectangle(BOARD_RIGHT, i, LCD_WIDTH, 2, 0x1f - i / c);
-      }
-      else
-      Tft.drawLine(0, i, LCD_WIDTH, i, 0x3f - i / c);
+      Tft.fillRectangle(0, i, LCD_WIDTH, 2, 0x1f - i / c);
     }
+
+    Tft.fillRectangle(BOARD_LEFT, 0, BOARD_RIGHT-BOARD_LEFT-1, BOARD_BOTTOM, BG_COLOR);
 
     // draw board left limit
     
@@ -284,7 +278,7 @@ class Tetris
       {
         // check if enough time has passed since last time the shape
         // was moved down the board
-        if ( now - lastDrop > dropWait || Joystick::getY() > 0)
+        if ( now - lastDrop > dropWait || Joystick::getY() > Joystick::NEUTRAL)
         {
           // update clock
           lastDrop = now;
@@ -334,7 +328,7 @@ class Tetris
 
     int move = INPUT_WAIT_MOVE / jx;
 
-    if ( jx < 0 && waited > -move)
+    if ( jx < Joystick::NEUTRAL && waited > -move)
     {
       if  (x > 0 && !touches(-1, 0, 0))
       {
@@ -343,7 +337,7 @@ class Tetris
         draw();
       }
     }
-    else if ( jx > 0 && waited > move )
+    else if ( jx > Joystick::NEUTRAL && waited > move )
     {
       if ( x < BOARD_WIDTH && !touches(1, 0, 0))
       {
@@ -353,7 +347,7 @@ class Tetris
       }
     }
     
-    if ( Joystick::fire())
+    if ( Joystick::fire() )
     {
       while ( !touches(0, 1, 0 ))
       {
@@ -364,7 +358,7 @@ class Tetris
     }
 
     int my = Joystick::getY();
-    if (( my == -2 && waited > INPUT_WAIT_ROT ) || ( my == -3 && waited > INPUT_WAIT_ROT / 2 ))
+    if (( my == -Joystick::HARD && waited > INPUT_WAIT_ROT ) || ( my == -Joystick::HARDER && waited > INPUT_WAIT_ROT / 2 ))
     {
       if (Joystick::getY() < 0 && !touches(0, 0, 1))
       {
