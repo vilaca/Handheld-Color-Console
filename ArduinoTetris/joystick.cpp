@@ -37,19 +37,6 @@
 
 #define CENTER      512
 
-// sometimes joysticks don't center
-// exactly at the expected point
-// expect that and only act after some
-// tolerance threshold
-
-#define TOLERANCE   (CENTER/2)
-
-// after this point the user is pressing
-// the joystick quite hard, act accordingly
-// i.e. move pieces faster
-
-#define HARD        (CENTER/2-TOLERANCE/4)
-
 class Joystick
 {
   public:
@@ -99,29 +86,9 @@ class Joystick
 
     static int getPosition (int pin)
     {
-      int n = analogRead(pin);
+      const int n = analogRead(pin) - CENTER;
 
-      if ( n < CENTER - TOLERANCE - HARD)
-      {
-        return -2;
-      }
-
-      if ( n < CENTER - TOLERANCE )
-      {
-        return -1;
-      }
-
-      if ( n > CENTER + TOLERANCE + HARD)
-      {
-        return 2;
-      }
-
-      if ( n > CENTER + TOLERANCE )
-      {
-        return 1;
-      }
-
-      return 0;
+      return n / 128;
     }
 };
 

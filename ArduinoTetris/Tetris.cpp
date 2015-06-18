@@ -49,7 +49,7 @@
 #define DROP_WAIT_INIT        1100
 
 #define INPUT_WAIT_ROT        300
-#define INPUT_WAIT_MOVE       200
+#define INPUT_WAIT_MOVE       150
 
 #define INPUT_WAIT_NEW_SHAPE  400
 
@@ -329,10 +329,12 @@ class Tetris
   void userInput(unsigned long now)
   {
     unsigned long waited = now - lastInput;
-    
+
     int jx = Joystick::getX();    
 
-    if ((jx == -1 && waited > INPUT_WAIT_MOVE) || jx == -2 )
+    int move = INPUT_WAIT_MOVE / jx;
+
+    if ( jx < 0 && waited > -move)
     {
       if  (x > 0 && !touches(-1, 0, 0))
       {
@@ -341,7 +343,7 @@ class Tetris
         draw();
       }
     }
-    else if ((jx == 1 && waited > INPUT_WAIT_MOVE) || jx == 2 )
+    else if ( jx > 0 && waited > move )
     {
       if ( x < BOARD_WIDTH && !touches(1, 0, 0))
       {
@@ -362,7 +364,7 @@ class Tetris
     }
 
     int my = Joystick::getY();
-    if (( my == -1 && waited > INPUT_WAIT_ROT ) || ( my == -2 && waited > INPUT_WAIT_ROT / 2 ))
+    if (( my == -2 && waited > INPUT_WAIT_ROT ) || ( my == -3 && waited > INPUT_WAIT_ROT / 2 ))
     {
       if (Joystick::getY() < 0 && !touches(0, 0, 1))
       {
