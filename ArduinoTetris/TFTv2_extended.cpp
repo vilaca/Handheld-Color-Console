@@ -358,13 +358,13 @@ void TFT::drawStringWithShadow(char *string,INT16U poX, INT16U poY, INT16U size,
     }
 }
 
-void TFT::fillRectangle(INT16U poX, INT16U poY, INT16U length, INT16U width, INT16U color)
+void TFT::fillRectangle(INT16U poX, INT16U poY, INT16U width, INT16U height, INT16U color)
 {
 
     INT16U XL = poX;
-    INT16U XR = poX+length;
+    INT16U XR = poX+width;
     INT16U YU = poY;
-    INT16U YD = poY+width;
+    INT16U YD = poY+height;
 
     unsigned long  XY=0;
     unsigned long i=0;
