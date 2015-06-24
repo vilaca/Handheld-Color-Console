@@ -12,8 +12,9 @@ Detailed instructions are available at: http://vilaca.eu/handheld-arduino-color-
 ##Ported games
 
 - [Arduino Tetris](ArduinoTetris/)
+- [Arduino Breakout](ArduinoBreakout/)
 
 
 ##Contributing
 
-Feel free to make this project better by contributing with source code, schematics, addons, etc.
+Feel free to make this project better by contributing with source code, improvements, bug reports, fixes, new games, etc.
