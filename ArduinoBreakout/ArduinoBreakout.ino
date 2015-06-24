@@ -1,4 +1,4 @@
-﻿/*
+/*
     Arduino Breakout
     Copyright (C) 2015 João André Esteves Vilaça
 
