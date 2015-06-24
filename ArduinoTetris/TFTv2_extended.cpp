@@ -6,6 +6,8 @@
   - LED pin moved to pin 9 on Atmega 328;
   - Screen orientation rotated 90/270º on initialization;
   - Added a few new methods;
+  - fixed spelling errors on method names
+  - removed dead code
   - ...
 
 */
@@ -560,12 +562,7 @@ INT8U TFT::drawNumber(long long_num,INT16U poX, INT16U poY,INT16U size,INT16U fg
         f=1;
         drawChar('0',poX, poY, size, fgcolor);
         return f;
-        if(poX < MAX_X)
-        {
-            poX += FONT_SPACE*size;                                     /* Move cursor right            */
-        }
     }
-
 
     while (long_num > 0)
     {
