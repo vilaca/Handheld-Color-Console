@@ -28,7 +28,7 @@
 
 class Ball
 {
-  const int SCORE[9] = {0, 1, 1, 3, 3, 5, 5, 7, 7};
+  const int SCORE[7] = {0, 1, 1, 3, 5, 5, 7};
   
   int left, right, top, bottom;
   
@@ -112,14 +112,28 @@ class Ball
 
     int collision(Tiles &tiles)
     {
-      int x = this->x+xi;
-      int y = this->y+yi;
+      const int x = this->x+xi;
+      const int y = this->y+yi;
     
-      int hit = hitTile( tiles, x,              y  )               ||
-                hitTile( tiles, x + BALL_R * 2, y + BALL_R * 2  )  ||
-                hitTile( tiles, x + BALL_R * 2, y  )               ||
-                hitTile( tiles, x,              y + BALL_R * 2  );
-
+      int hit;
+    
+      if ( hit = hitTile( tiles,    x,              y  ))
+      {
+        return SCORE[hit];
+      }
+        
+      if ( hit = hitTile( tiles,    x + BALL_R * 2, y + BALL_R * 2  ))
+      {
+        return SCORE[hit];
+      }
+    
+      if ( hit = hitTile( tiles,    x + BALL_R * 2, y  ))
+      {
+        return SCORE[hit];
+      }
+    
+      hit = hitTile( tiles,         x,              y + BALL_R * 2  );
+    
       return SCORE[hit];
     }
 
@@ -130,7 +144,7 @@ class Ball
       // only interested if ball is moving down
       if ( yi < 0 ) return false;
 
-      int ny = y+yi+BALL_R*2;
+      const int ny = y+yi+BALL_R*2;
 
       if ( ny < paddle.getY() ) return false;
     
@@ -146,7 +160,7 @@ class Ball
       else if (diff > 0)
       {
         const int hit = diff / ((PADDLE_W + PADDLE_TOLERANCE)/2);
-        xi = (float)hit * .5f + .5f; 
+        xi = (float)hit * .5f + .5f;
         yi = - 2 + xi;
       }
       else if (diff < 0)
@@ -163,25 +177,25 @@ class Ball
       return true;
     }
 
-private:
+  private:
 
     int hitTile(Tiles &tiles, int x, int y)
     {
       int ty =(y - TILES_TOP)/ TILE_H;
       int tx =(x - TILES_LEFT)/ TILE_W;
-      
-      boolean hit = ty >= 0 && ty < ROWS && tx >= 0 && tx < COLS && tiles.exists(tx,ty);
-      
+    
+      const boolean hit = ty >= 0 && ty < ROWS && tx >= 0 && tx < COLS && tiles.exists(tx,ty);
+    
       if (!hit) return 0;
-      
+    
       tiles.clearTile( tx, ty );
-      
+    
       tft.fillRectangle(TILES_LEFT + tx * TILE_W, TILES_TOP + ty * TILE_H, TILE_W - 2, TILE_H - 2, BLACK);
-      
-
-
+    
+      const int score = ROWS - ty;
+    
       ty*= TILE_H;
-      
+    
       int ty2= ty + TILE_H;
 
       if ( (yi > 0 && y > ty) || (yi < 0 && y < ty2))
@@ -191,11 +205,10 @@ private:
       else
       {
         yi *=-1;
-      }      
+      }
 
-      return ROWS - ty;
+      return score;
     }
-  
 };
 
 #endif
