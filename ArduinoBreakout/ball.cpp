@@ -190,15 +190,16 @@ class Ball
     
       tiles.clearTile( tx, ty );
     
-      tft.fillRectangle(TILES_LEFT + tx * TILE_W, TILES_TOP + ty * TILE_H, TILE_W - 2, TILE_H - 2, BLACK);
-    
       const int score = ROWS - ty;
     
       ty*= TILE_H;
-    
-      int ty2= ty + TILE_H;
+      ty+= TILES_TOP;
 
-      if ( (yi > 0 && y > ty) || (yi < 0 && y < ty2))
+      tft.fillRectangle(TILES_LEFT + tx * TILE_W, ty, TILE_W - 2, TILE_H - 2, BACKGROUND_COLOR);
+        
+      const int ty2= ty + TILE_H;
+
+      if ( (yi > 0 && y > ty) || (yi < 0 && y > ty2))
       {
         xi *=-1;
       }
